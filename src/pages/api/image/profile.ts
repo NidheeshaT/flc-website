@@ -26,14 +26,15 @@ export default async function handler(
             res.status(500).send("Server Error")
 
         const previousImage=user.image
-
+        console.log(result)
         await prisma?.user.update({ where: { id: session.user.id }, data: { ...user, image: result } })
-
+        
         res.status(200).send({ secure_url: result });
         
         if(previousImage!==null)
             await deleteImage(previousImage) 
     } catch (err) {
+        console.log(err)
         res.status(400).send(err);
     }
 }
